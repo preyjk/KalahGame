@@ -1,0 +1,15 @@
+# Ignore Python Virtual Environment
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore Node.js 
+node_modules/
+dist/
+build/
+*.log
+
+# Ignore Docker 
+.dockerignore
+Dockerfile

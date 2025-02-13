@@ -1,5 +1,5 @@
 # =====================
-# ⚡ Backend (FastAPI)
+# Backend (FastAPI)
 # =====================
 
 # Virtual environment
@@ -31,14 +31,14 @@ docker-compose.override.yml
 .dockerignore
 
 # =====================
-# ⚡ Logs & Debug Files
+# Logs & Debug Files
 # =====================
 *.log
 debug.log
 nohup.out
 
 # =====================
-# ⚡ Database / AI Models
+# Database / AI Models
 # =====================
 /models/
 *.db
@@ -50,7 +50,7 @@ nohup.out
 *.json
 
 # =====================
-# ⚡ WebSockets / Cache
+# WebSockets / Cache
 # =====================
 __pycache__/
 .cache/
