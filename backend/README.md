@@ -14,3 +14,7 @@
 8. Run FastAPI: `fastapi dev main.py`
 
 ### Run FastAPI with Docker
+
+1. Create and Config `dockerfile` (no need to create virtual environment because docker is a virtual environment)
+2. Create and Config `docker-compose.yml`
+3. Run Docker Compose
