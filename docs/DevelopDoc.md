@@ -71,7 +71,7 @@
 `[Frontend React] → [routes] → [services] → [models] → [database]`
 
 - routes = Controller
-- 前端的 Http 请求由 routes 处理，然后调用 services 方法处理业务逻辑，services 调用 models 方法操作数据库。
+- 前端的 Http 请求由 routes 处理，然后调用 services 方法处理业务逻辑，services 调用 models 方法处理 Kalah 游戏规则等底层逻辑，models 调用数据库。
 
 ---
 
@@ -118,12 +118,18 @@
 
 ## Management
 
-阶段 1
+Pre Stage
+
+- 搭建项目
+- 测试前后端的连通
+- 测试数据库的连通
+
+Stage 1
 
 - 实现后端的 Kalah 游戏规则
 - API
 
-阶段 2
+Stage 2
 
 - 实现前端界面
 - 连接后端 API
