@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   backend:
     build:
@@ -11,15 +9,43 @@ services:
       - ./backend:/app
     environment:
       ENV: development
+      DATABASE_URL: postgresql://kalah_user:kalah_password@db:5432/kalah_db
+    depends_on:
+      - db
+    networks:
+      - kalah_network
 
   frontend:
     build:
       context: ./frontend
       dockerfile: dockerfile
     ports:
-      - "3000:5173"
+      - "5173:5173"
     volumes:
       - ./frontend:/app
       - /app/node_modules
     environment:
       ENV: development
+    networks:
+      - kalah_network
+
+  db:
+    image: postgres:17
+    container_name: postgres_db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: kalah_user
+      POSTGRES_PASSWORD: kalah_password
+      POSTGRES_DB: kalah_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - kalah_network
+
+volumes:
+  postgres_data:
+
+networks:
+  kalah_network:
+    driver: bridge

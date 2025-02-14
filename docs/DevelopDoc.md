@@ -57,7 +57,7 @@
   - 后端框架：FastAPI
   - 后端通信：WebSocket + REST API
 - Database
-  - PostgreSQL / Redis
+  - PostgreSQL + Redis
 - AI
   - MCTS + 强化学习
 - DevOps
@@ -78,6 +78,9 @@
 ## III. 数据结构和 API
 
 ### 3.1 数据库设计
+
+Postgresql
+口令:123
 
 ### 3.2 API 文档
 
@@ -114,6 +117,48 @@
 
 ## DevOps
 
+### 代码仓库 & 分支管理:
+
+- 代码托管：GitHub
+- Git 分支策略：
+  - main（生产环境）
+  - develop（开发环境）
+  - feature（新功能）
+  - bugfix（修复）
+  - hotfix（紧急修复）
+- 提交规范: Conventional Commits
+
+### CI/CD
+
+CI/CD 工具：GitHub Actions / GitLab CI/CD / Jenkins
+自动化流程：
+
+前端：npm test + npm run build
+后端：pytest + black 代码格式化
+Docker 容器化 并部署到 AWS/GCP
+Kubernetes 滚动更新
+
+### 容器化 & 镜像管理
+
+✅ 容器化技术：Docker + Docker Compose
+✅ 镜像仓库：Docker Hub / AWS ECR / GCR
+
+### 云端部署
+
+✅ 云提供商：AWS / GCP / Azure
+✅ 部署方式：
+
+Docker Compose（单机部署）
+Kubernetes（K8s）集群
+Nginx 反向代理
+
+### 监控 & 日志
+
+✅ 监控系统：Prometheus + Grafana
+✅ 日志管理：ELK（Elasticsearch + Logstash + Kibana）
+
+✅ Prometheus 监控 FastAPI
+
 ---
 
 ## Management
@@ -133,6 +178,29 @@ Stage 2
 
 - 实现前端界面
 - 连接后端 API
+
+---
+
+## Questions
+
+**问题：宿主机无法连接 Docker 中运行的 PostgreSql** （Solved）
+
+运行连接命令: `psql -h localhost -U kalah_user -d kalah_db` 返回 `psql: 错误: 连接到"localhost" (::1)上的服务器，端口5432失败：致命错误:  用户 "kalah_user" Password 认证失败`
+
+1. 确保 PostgreSql 正在运行 `docker ps`（Pass）
+2. 确保 PostgreSQL 正在监听 5432 端口（Pass）
+   - 进入 postgres_db 容器: `docker exec -it postgres_db psql -U kalah_user -d kalah_db`
+   - 查看监听的地址: `SHOW listen_addresses;`
+3. 尝试使用 Docker 容器 IP 连接（Pass）
+   - `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' postgres_db`
+   - `psql -h xxx.xx.x.x -U kalah_user -d kalah_db`
+4. 修改 postgresql.conf 监听所有 IP（Pass）
+   - 查看监听的所有 IP: `docker exec -it postgres_db cat /var/lib/postgresql/data/pg_hba.conf`
+   - `docker exec -it postgres_db bash -c "echo 'host all all 0.0.0.0/0 md5' >> /var/lib/postgresql/data/pg_hba.conf"`
+   - `docker exec -it postgres_db bash -c "echo 'host all all ::/0 md5' >> /var/lib/postgresql/data/pg_hba.conf"`
+   - `docker restart postgres_db`
+5. 重启了本地 PostgreSQL 服务，确认了本地服务能够成功运行后。不知为何就能成功连接 Docker 内的 PostgreSQL 了。（Solution）
+   - 我猜测里面或许有端口占用问题，我在尝试本地服务的过程中，最后可能释放了被占用的 5432 端口。
 
 ---
 
