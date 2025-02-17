@@ -33,13 +33,14 @@ services:
     image: postgres:17
     container_name: postgres_db
     ports:
-      - "5432:5432"
+      - "5431:5432"
     environment:
       POSTGRES_USER: kalah_user
-      POSTGRES_PASSWORD: kalah_password
+      POSTGRES_PASSWORD: 123
       POSTGRES_DB: kalah_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./backend/app/db/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - kalah_network
 
