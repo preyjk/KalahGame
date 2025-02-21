@@ -68,7 +68,7 @@
 ### 2.3 模块设计
 
 后端架构: MSC (Modal - Service - Controller)
-`[Frontend React] → [routes] → [services] → [models] → [database]`
+`[models] <- [services] <- [routes(Controller)] <- [Frontend React]`
 
 ```bash
 backend/
@@ -79,7 +79,7 @@ backend/
 │ │ ├── database.py
 │ │ ├── init.sql
 │ ├── models/
-│ │ ├── user.py
+│ │ ├── user_model.py
 │ ├── services/
 │ │ ├── user_service.py
 │ ├── routes/
@@ -111,6 +111,10 @@ backend/
 **SQL DDL** [SQL DDL](../backend/app/db/init.sql)
 
 ### 3.2 API 文档
+
+### 3.3 后端技术细节
+
+在 FastAPI 里，我们通常用 SQLAlchemy 定义 Model，用 Pydantic 定义 Schema。Model 用来操作数据库，Schema 用来验证前端传来的数据校验。
 
 ---
 

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from models.user import User
+from models.user_model import User
 from schemas.user_schema import UserCreate
 from passlib.hash import bcrypt
 
