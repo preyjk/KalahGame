@@ -6,7 +6,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./backend:/app
+      - ./backend/app:/code/app
     environment:
       ENV: development
       DATABASE_URL: postgresql://kalah_user:kalah_password@db:5432/kalah_db

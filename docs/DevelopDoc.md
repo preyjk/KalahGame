@@ -151,6 +151,15 @@ backend/
   - bugfix（修复）
   - hotfix（紧急修复）
 - 提交规范: Conventional Commits
+  - feat： 新增 feature
+  - fix: 修复 bug
+  - docs: 仅仅修改了文档，比如 README, CHANGELOG, CONTRIBUTE 等等
+  - style: 仅仅修改了空格、格式缩进、逗号等等，不改变代码逻辑
+  - refactor: 代码重构，没有加新功能或者修复 bug
+  - perf: 优化相关，比如提升性能、体验
+  - test: 测试用例，包括单元测试、集成测试等
+  - chore: 改变构建流程、或者增加依赖库、工具等
+  - revert: 回滚到上一个版本
 
 **CI/CD**
 
@@ -174,7 +183,7 @@ Kubernetes 滚动更新
 
 运行连接命令: `psql -h localhost -U kalah_user -d kalah_db` 返回 `psql: 错误: 连接到"localhost" (::1)上的服务器，端口5432失败：致命错误:  用户 "kalah_user" Password 认证失败`
 
-1. 确保 PostgreSql 正在运行 `docker ps`（Pass）
+1. 确保 PostgreSql 正在运行: `docker ps`（Pass）
 2. 确保 PostgreSQL 正在监听 5432 端口（Pass）
    - 进入 postgres_db 容器: `docker exec -it postgres_db psql -U kalah_user -d kalah_db`
    - 查看监听的地址: `SHOW listen_addresses;`
@@ -188,6 +197,11 @@ Kubernetes 滚动更新
 5. 检查是否存在宿主机端口占用问题 （Solution）
    - `netstat -ano | findstr :5432` 查看 5432 端口有没有被占用。
    - 关闭本机服务或者修改宿主机暴露的端口，比如`5431:5432`
+
+**问题：启用后端热重载**
+
+- docker 的 volumes 可以建立起本地文件和 docker 文件的映射关系，这样本地文件改变后，docker 文件也会改变，unicorn 监听文件改变，热重载生效。
+- 启用热重载失败，以及一些找不到`main`文件之类的 bug 一般都是由于路径设置不正确导致的。
 
 ---
 

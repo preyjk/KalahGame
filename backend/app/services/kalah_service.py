@@ -4,7 +4,6 @@ from app.schemas.kalah_schema import GameCreate, GameMove
 import json
 
 def create_game(db: Session, game_data: GameCreate):
-    """创建新的 Kalah 游戏"""
     board_state = {
         "pits": [4] * 6 + [0] + [4] * 6 + [0]  # 6 pits per player, 1 Kalah per player
     }
@@ -20,7 +19,6 @@ def create_game(db: Session, game_data: GameCreate):
     return new_game
 
 def make_move(db: Session, game_id: int, move: GameMove):
-    """执行玩家的移动"""
     game = db.query(Game).filter(Game.game_id == game_id).first()
     if not game:
         return None
