@@ -25,9 +25,11 @@ services:
       - ./frontend:/app
       - /app/node_modules
     environment:
-      ENV: development
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
     networks:
       - kalah_network
+    command: ["npm", "run", "dev", "--", "--host"]
 
   db:
     image: postgres:17

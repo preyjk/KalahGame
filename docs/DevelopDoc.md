@@ -202,6 +202,11 @@ Kubernetes 滚动更新
 
 - docker 的 volumes 可以建立起本地文件和 docker 文件的映射关系，这样本地文件改变后，docker 文件也会改变，unicorn 监听文件改变，热重载生效。
 - 启用热重载失败，以及一些找不到`main`文件之类的 bug 一般都是由于路径设置不正确导致的。
+- 启用 volumes 后，就不用在 dockfile 中 copy 静态代码了。
+
+**问题: docker 启动时端口被占用**
+
+- winnat
 
 ---
 
