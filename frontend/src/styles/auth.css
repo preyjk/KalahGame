@@ -1,0 +1,41 @@
+/* 登录和注册页面容器 */
+.login-container,
+.register-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h1,
+.register-container h1 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #1a1a1a;
+  font-size: 28px;
+}
+
+.login-container form,
+.register-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 表单按钮组 */
+.auth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.auth-buttons button:not([type="submit"]) {
+  background-color: #52c41a;
+}
+
+.auth-buttons button:not([type="submit"]):hover {
+  background-color: #73d13d;
+} 

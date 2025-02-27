@@ -7,15 +7,30 @@ const initialBoard = [
   4,
   4,
   4,
-  0, // Player 1 side (last is their store)
+  0, // Player 1 store
   4,
   4,
   4,
   4,
   4,
   4,
-  0, // Player 2 side (last is their store)
+  0, // Player 2 store
 ];
+
+const isGameOver = (board: number[]) => {
+  return (
+    board.slice(0, 6).every((seeds) => seeds === 0) ||
+    board.slice(7, 13).every((seeds) => seeds === 0)
+  );
+};
+
+const getNextPit = (pos: number, playerTurn: number): number => {
+  do {
+    pos = (pos + 1) % 14;
+  } while ((playerTurn === 1 && pos === 13) || (playerTurn === 2 && pos === 6));
+
+  return pos;
+};
 
 const LocalGame: React.FC = () => {
   const [board, setBoard] = useState<number[]>([...initialBoard]);
@@ -23,27 +38,28 @@ const LocalGame: React.FC = () => {
   const [message, setMessage] = useState<string>("Player 1's turn");
 
   const handlePitClick = (index: number) => {
+    if (isGameOver(board)) return;
+
     if (
-      (playerTurn === 1 && index >= 6) ||
-      (playerTurn === 2 && (index < 7 || index === 13))
+      (playerTurn === 1 && (index < 0 || index > 5)) ||
+      (playerTurn === 2 && (index < 7 || index > 12))
     ) {
       setMessage("Invalid move! Pick your own pits.");
       return;
     }
 
-    const newBoard = [...board];
-    let seeds = newBoard[index];
-    if (seeds === 0) {
+    if (board[index] === 0) {
       setMessage("No seeds to pick!");
       return;
     }
 
+    let newBoard = [...board];
+    let seeds = newBoard[index];
     newBoard[index] = 0;
     let pos = index;
+
     while (seeds > 0) {
-      pos = (pos + 1) % 14;
-      if (playerTurn === 1 && pos === 13) continue; // Skip opponent's store
-      if (playerTurn === 2 && pos === 6) continue;
+      pos = getNextPit(pos, playerTurn);
       newBoard[pos]++;
       seeds--;
     }
@@ -51,16 +67,44 @@ const LocalGame: React.FC = () => {
     // Capture rule
     if (
       newBoard[pos] === 1 &&
-      ((playerTurn === 1 && pos < 6) ||
-        (playerTurn === 2 && pos > 6 && pos < 13))
+      ((playerTurn === 1 && pos >= 0 && pos < 6) ||
+        (playerTurn === 2 && pos >= 7 && pos < 13))
     ) {
       const opposite = 12 - pos;
-      newBoard[playerTurn === 1 ? 6 : 13] += newBoard[opposite] + 1;
-      newBoard[pos] = 0;
-      newBoard[opposite] = 0;
+      if (newBoard[opposite] > 0) {
+        newBoard[playerTurn === 1 ? 6 : 13] += newBoard[opposite] + 1;
+        newBoard[pos] = 0;
+        newBoard[opposite] = 0;
+      }
     }
 
-    // Check for extra turn
+    // Check for game over
+    if (isGameOver(newBoard)) {
+      const player1Store = newBoard[6];
+      const player2Store = newBoard[13];
+
+      const remainingPlayer1 = newBoard.slice(0, 6).reduce((a, b) => a + b, 0);
+      const remainingPlayer2 = newBoard.slice(7, 13).reduce((a, b) => a + b, 0);
+
+      newBoard = [...newBoard];
+      newBoard[6] = player1Store + remainingPlayer1;
+      newBoard[13] = player2Store + remainingPlayer2;
+
+      newBoard.fill(0, 0, 6);
+      newBoard.fill(0, 7, 13);
+
+      setBoard(newBoard);
+      setMessage(
+        newBoard[6] > newBoard[13]
+          ? "Player 1 wins!"
+          : newBoard[6] < newBoard[13]
+          ? "Player 2 wins!"
+          : "It's a tie!"
+      );
+      return;
+    }
+
+    // Check if last seed landed in player's store (grant extra turn)
     if ((playerTurn === 1 && pos === 6) || (playerTurn === 2 && pos === 13)) {
       setMessage(`Player ${playerTurn} gets another turn!`);
       setBoard(newBoard);
@@ -79,11 +123,14 @@ const LocalGame: React.FC = () => {
       <p>{message}</p>
       <div className="board">
         <div className="player-side">
-          {board.slice(7, 13).map((seeds, idx) => (
-            <button key={idx + 7} onClick={() => handlePitClick(idx + 7)}>
-              {seeds}
-            </button>
-          ))}
+          {board
+            .slice(7, 13)
+            .reverse()
+            .map((seeds, idx) => (
+              <button key={12 - idx} onClick={() => handlePitClick(12 - idx)}>
+                {seeds}
+              </button>
+            ))}
         </div>
         <div className="stores">
           <div className="store">{board[13]}</div>

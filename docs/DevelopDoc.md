@@ -27,9 +27,20 @@
 
 目标：通过策略分配种子、争取额外回合、捕获对手种子，以最大化 Kalah 的得分。
 
+**Login and Signup**
+
 **Two Player Local 模式**
 
+- local 对战的逻辑完全写在前端，以减少服务器请求。
+- 游戏结束后，弹窗提示获胜者以及分数比。
+- 游戏结束后，可选择再来一局或回到主菜单。
+
 **Two Player Online 模式**
+
+- 联网对战的逻辑完全写在后端。
+- 玩家可以创建房间或者浏览房间大厅加入别人的房间。
+- 对战记录会存储在后端。
+- 玩家可查看自己的对战记录：对战局数和胜率。
 
 **One Player AI 模式**
 
@@ -92,6 +103,26 @@ backend/
 │── requirements.txt
 ```
 
+前端架构:
+
+```bash
+frontend/
+├── public/
+│ ├── logo.svg
+├── src/
+│   ├── assets
+│   ├── components
+│   ├── pages
+│   ├── routes
+│   ├── services
+│   ├── store
+│   ├── utils
+│   ├── types
+│   ├── App.tsx
+│   ├── main.tsx
+├── tests
+```
+
 ---
 
 ## III. 数据结构和 API
@@ -124,10 +155,9 @@ backend/
 
 主界面：选择模式
 
-- 单人模式（AI 对战）
-- 双人模式（本地对战）
-- 双人模式（网上对战）
-- 设置
+- 本地双人对战
+- 人机对战
+- 在线对战
 
 ### 4.2 前端路由
 
