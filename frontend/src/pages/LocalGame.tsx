@@ -118,30 +118,50 @@ const LocalGame: React.FC = () => {
   };
 
   return (
-    <div className="game-container">
-      <h1>Kalah</h1>
-      <p>{message}</p>
-      <div className="board">
-        <div className="player-side">
-          {board
-            .slice(7, 13)
-            .reverse()
-            .map((seeds, idx) => (
-              <button key={12 - idx} onClick={() => handlePitClick(12 - idx)}>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-2 sm:p-4">
+      <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2 sm:mb-4">
+        Kalah
+      </h1>
+      <p className="text-lg sm:text-xl text-gray-600 mb-4 sm:mb-8">{message}</p>
+      <div className="bg-white p-4 sm:p-8 rounded-lg shadow-lg w-full max-w-4xl">
+        <div className="flex flex-col gap-4 sm:gap-8">
+          <div className="flex justify-center gap-2 sm:gap-4">
+            {board
+              .slice(7, 13)
+              .reverse()
+              .map((seeds, idx) => (
+                <button
+                  key={12 - idx}
+                  onClick={() => handlePitClick(12 - idx)}
+                  className={`w-12 h-12 sm:w-24 md:w-32 sm:h-24 md:h-32 rounded-full bg-blue-100 hover:bg-blue-200 
+                    flex items-center justify-center text-sm sm:text-xl font-bold
+                    ${playerTurn === 2 ? "hover:ring-2 ring-blue-500" : ""}`}
+                >
+                  {seeds}
+                </button>
+              ))}
+          </div>
+          <div className="flex justify-between">
+            <div className="w-16 sm:w-32 h-20 sm:h-40 bg-green-100 rounded-lg flex items-center justify-center text-lg sm:text-2xl font-bold">
+              {board[13]}
+            </div>
+            <div className="w-16 sm:w-32 h-20 sm:h-40 bg-green-100 rounded-lg flex items-center justify-center text-lg sm:text-2xl font-bold">
+              {board[6]}
+            </div>
+          </div>
+          <div className="flex justify-center gap-2 sm:gap-4">
+            {board.slice(0, 6).map((seeds, idx) => (
+              <button
+                key={idx}
+                onClick={() => handlePitClick(idx)}
+                className={`w-12 h-12 sm:w-24 md:w-32 sm:h-24 md:h-32 rounded-full bg-blue-100 hover:bg-blue-200 
+                  flex items-center justify-center text-sm sm:text-xl font-bold
+                  ${playerTurn === 1 ? "hover:ring-2 ring-blue-500" : ""}`}
+              >
                 {seeds}
               </button>
             ))}
-        </div>
-        <div className="stores">
-          <div className="store">{board[13]}</div>
-          <div className="store">{board[6]}</div>
-        </div>
-        <div className="player-side">
-          {board.slice(0, 6).map((seeds, idx) => (
-            <button key={idx} onClick={() => handlePitClick(idx)}>
-              {seeds}
-            </button>
-          ))}
+          </div>
         </div>
       </div>
     </div>

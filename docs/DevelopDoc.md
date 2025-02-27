@@ -5,7 +5,13 @@
 ### 1.1 项目简介
 
 **项目目标**
-制作网页版的 Kalah Game，能够进行单人模式和网上双人对战，单人模式配有 AI。
+制作网页版的 Kalah Game，能够进行本地双人对战，网上双人对战以及人机对战。
+
+**项目目的**
+我做这个项目的目的主要是为了训练自己软件开发的认知，包括软件的设计，后端开发，前端开发，测试和部署。
+
+**项目描述**
+Kalah 是一个有着悠久历史的播棋游戏，游戏本身很简单，没有太多复杂的逻辑要实现，因此我的开发主要着重于 web 游戏开发的通用部分，完成本地双人对战和网上双人对战后，我将着手开发 AI 来作为挑战。
 
 ### 1.2 功能需求
 
@@ -60,7 +66,7 @@
 ### 2.1 技术栈
 
 - Frontend
-  - 前端框架：React + Vite + TailwindCSS
+  - 前端框架：React + Vite + Tailwind CSS
   - 前端状态管理：Redux
   - 前端通信：WebSocket
   - 动画：Framer Motion
@@ -70,15 +76,13 @@
 - Database
   - PostgreSQL + Redis
 - AI
-  - MCTS + 强化学习
 - DevOps
-  - Vercel（前端）+ AWS / Railway（后端）
 
 ### 2.2 系统架构图
 
 ### 2.3 模块设计
 
-后端架构: MSC (Modal - Service - Controller)
+**后端架构:** MSC (Modal - Service - Controller)
 `[models] <- [services] <- [routes(Controller)] <- [Frontend React]`
 
 ```bash
@@ -103,7 +107,7 @@ backend/
 │── requirements.txt
 ```
 
-前端架构:
+**前端架构**
 
 ```bash
 frontend/
@@ -158,6 +162,8 @@ frontend/
 - 本地双人对战
 - 人机对战
 - 在线对战
+
+**本地双人对战**
 
 ### 4.2 前端路由
 
@@ -237,6 +243,14 @@ Kubernetes 滚动更新
 **问题: docker 启动时端口被占用**
 
 - winnat
+
+**问题: 每次在本地安装 npm 包，重启 docker 后，docker 仍然找不到此包**
+
+```
+docker-compose down --volumes
+docker-compose build --no-cache
+docker-compose up -d
+```
 
 ---
 
